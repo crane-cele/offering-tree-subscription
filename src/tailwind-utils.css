@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-input-container {
+  @apply mb-6 w-full;
+}
+
+.form-input, .form-select {
+  @apply p-2 border-2 border-gray-300 rounded-md focus:border-blue-500 focus:outline-none w-full;
+}
+
+.form-input[disabled] {
+  @apply bg-gray-200 cursor-not-allowed;
+}
+
+.form-label {
+  @apply block mb-2 font-semibold text-gray-700;
+}
+
+.select-input-container {
+  @apply mb-6 w-full;
+}
+
+.form-container {
+  @apply p-6 bg-white rounded-lg shadow-md;
+}
+
+.form-line-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.button-submit {
+  @apply w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 mt-4;
+}
+
+.description-section {
+  @apply mt-4 p-4 bg-gray-100 border-2 border-gray-300 rounded-md;
+}
+
+.description-content {
+  @apply transition-transform duration-500 ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.description-animate {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.highlight {
+  font-weight: bold;
+  color: red;
+}
