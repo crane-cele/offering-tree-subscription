@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import FormInput from '../components/FormInput';
-import SelectInput from '../components/SelectInput';
-import { DescriptionSectionProps } from '../sections/Description';
+import React, { useState, useEffect } from "react";
+import FormInput from "../components/FormInput";
+import SelectInput from "../components/SelectInput";
+import { DescriptionSectionProps } from "../sections/Description";
 
 interface SubscriptionFormProps {
   updateDescription: (description: string) => void;
@@ -9,36 +9,44 @@ interface SubscriptionFormProps {
   description: string;
 }
 
-const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ updateDescription, DescriptionSection, description }) => {
-  const [initialPrice, setInitialPrice] = useState('');
+// Subscription form component managing the subscription configuration
+const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
+  updateDescription,
+  DescriptionSection,
+  description,
+}) => {
+  // Form state variables
+  const [initialPrice, setInitialPrice] = useState("");
   const [billingFrequency, setBillingFrequency] = useState(1);
-  const [billingPeriod, setBillingPeriod] = useState('Days');
-  const [paymentAmount, setPaymentAmount] = useState('');
-  const [trialPeriod, setTrialPeriod] = useState('');
-  const [trialPeriodType, setTrialPeriodType] = useState('None');
-  const [duration, setDuration] = useState('Never Ends');
-  const [billingCycles, setBillingCycles] = useState('');
+  const [billingPeriod, setBillingPeriod] = useState("Days");
+  const [paymentAmount, setPaymentAmount] = useState("");
+  const [trialPeriod, setTrialPeriod] = useState("");
+  const [trialPeriodType, setTrialPeriodType] = useState("None");
+  const [duration, setDuration] = useState("Never Ends");
+  const [billingCycles, setBillingCycles] = useState("");
 
+  // Autofill payment amount with initial price if no payment amount is entered
   useEffect(() => {
     if (!paymentAmount && initialPrice) {
       setPaymentAmount(initialPrice);
     }
-  }, [initialPrice]);
+  }, [initialPrice, paymentAmount]);
 
+  // Update description based on form inputs
   useEffect(() => {
-    let desc = '';
+    let desc = "";
     const initial = parseFloat(initialPrice) || 0;
     const payment = parseFloat(paymentAmount) || 0;
     const cycles = parseInt(billingCycles) || 0;
     const trial = parseInt(trialPeriod) || 0;
 
-    if (trialPeriodType !== 'None') {
+    if (trialPeriodType !== "None") {
       desc += `Your customer will be charged $<span class="highlight">${initial}</span> immediately for their ${trial} ${trialPeriodType.toLowerCase()} trial, `;
     } else {
       desc += `Your customer will be charged $<span class="highlight">${initial}</span> immediately, `;
     }
 
-    if (duration === 'Never Ends') {
+    if (duration === "Never Ends") {
       desc += `and then $<span class="highlight">${payment}</span> every ${billingFrequency} ${billingPeriod} until they cancel.`;
     } else {
       const total = (cycles * payment + initial).toFixed(2);
@@ -46,47 +54,65 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ updateDescription, 
     }
 
     updateDescription(desc);
-  }, [initialPrice, billingFrequency, billingPeriod, paymentAmount, trialPeriod, trialPeriodType, duration, billingCycles]);
+  }, [
+    initialPrice,
+    billingFrequency,
+    billingPeriod,
+    paymentAmount,
+    trialPeriod,
+    trialPeriodType,
+    duration,
+    billingCycles,
+    updateDescription,
+  ]);
 
-  const handlePositiveNumberChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (parseFloat(value) >= 0) {
-      setter(value);
-    }
-  };
+  // Handler for positive number input changes
+  const handlePositiveNumberChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      if (parseFloat(value) >= 0) {
+        setter(value);
+      }
+    };
 
-  const handlePositiveIntegerChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (value >= 0) {
-      setter(value);
-    }
-  };
+  // Handler for positive integer input changes
+  const handlePositiveIntegerChange =
+    (setter: React.Dispatch<React.SetStateAction<number>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(e.target.value);
+      if (value >= 0) {
+        setter(value);
+      }
+    };
 
   return (
     <form className="form-container">
       <div className="form-line-grid">
-        <FormInput 
+        <FormInput
           label="Initial Price"
           value={initialPrice}
           onChange={handlePositiveNumberChange(setInitialPrice)}
           type="number"
           placeholder="Enter initial price"
         />
-        <FormInput 
+        <FormInput
           label="Billing Frequency"
           value={billingFrequency.toString()}
           onChange={handlePositiveIntegerChange(setBillingFrequency)}
           type="number"
           placeholder="Enter billing frequency"
         />
-        <SelectInput 
+        <SelectInput
           label="Billing Period"
-          options={['Days', 'Weeks', 'Months']}
+          options={["Days", "Weeks", "Months"]}
           value={billingPeriod}
           onChange={(e) => setBillingPeriod(e.target.value)}
         />
-        <FormInput 
-          label={`${billingPeriod.charAt(0).toUpperCase() + billingPeriod.slice(1)} Payment`}
+        <FormInput
+          label={`${
+            billingPeriod.charAt(0).toUpperCase() + billingPeriod.slice(1)
+          } Payment`}
           value={paymentAmount}
           onChange={handlePositiveNumberChange(setPaymentAmount)}
           type="number"
@@ -94,28 +120,28 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ updateDescription, 
         />
       </div>
       <div className="form-line-grid">
-        <FormInput 
+        <FormInput
           label="Trial Period"
           value={trialPeriod}
           onChange={handlePositiveNumberChange(setTrialPeriod)}
           type="number"
           placeholder="Enter trial period"
-          disabled={trialPeriodType === 'None'}
+          disabled={trialPeriodType === "None"}
         />
-        <SelectInput 
+        <SelectInput
           label="Trial Period Type"
-          options={['None', 'Days', 'Weeks', 'Months']}
+          options={["None", "Days", "Weeks", "Months"]}
           value={trialPeriodType}
           onChange={(e) => setTrialPeriodType(e.target.value)}
         />
-        <SelectInput 
+        <SelectInput
           label="Duration"
-          options={['Never Ends', 'Customize']}
+          options={["Never Ends", "Customize"]}
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
         />
-        {duration === 'Customize' && (
-          <FormInput 
+        {duration === "Customize" && (
+          <FormInput
             label="Billing Cycles"
             value={billingCycles}
             onChange={handlePositiveNumberChange(setBillingCycles)}

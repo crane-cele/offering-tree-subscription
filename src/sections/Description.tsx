@@ -1,22 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 export interface DescriptionSectionProps {
   description: string;
 }
 
-const DescriptionSection: React.FC<DescriptionSectionProps> = ({ description }) => {
+// Description component displaying the subscription description with animation
+const DescriptionSection: React.FC<DescriptionSectionProps> = ({
+  description,
+}) => {
   useEffect(() => {
-    const descriptionElement = document.querySelector('.description-content') as HTMLElement | null;
+    const descriptionElement = document.querySelector(
+      ".description-content"
+    ) as HTMLElement | null;
     if (descriptionElement) {
-      descriptionElement.classList.remove('description-animate');
-      void descriptionElement.offsetWidth; // Trigger reflow
-      descriptionElement.classList.add('description-animate');
+      descriptionElement.classList.remove("description-animate");
+      void descriptionElement.offsetWidth;
+      descriptionElement.classList.add("description-animate");
     }
   }, [description]);
 
   return (
     <div className="description-section">
-      <p className="description-content description-animate" dangerouslySetInnerHTML={{ __html: description }}></p>
+      <p
+        className="description-content description-animate"
+        dangerouslySetInnerHTML={{ __html: description }}
+      ></p>
     </div>
   );
 };

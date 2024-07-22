@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import SubscriptionForm from '../sections/SubscriptionForm';
-import DescriptionSection from '../sections/Description';
+import React, { useState } from "react";
+import SubscriptionForm from "../sections/SubscriptionForm";
+import DescriptionSection from "../sections/Description";
 
+// Subscription page component managing the subscription form and description
 const Subscription: React.FC = () => {
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
 
+   // Update the description states
   const updateDescription = (desc: string) => {
     setDescription(desc);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
-      <SubscriptionForm updateDescription={updateDescription} DescriptionSection={DescriptionSection} description={description} />
+    <div className="subscription-container">
+      <SubscriptionForm
+        updateDescription={updateDescription}
+        DescriptionSection={DescriptionSection}
+        description={description}
+      />
     </div>
   );
 };

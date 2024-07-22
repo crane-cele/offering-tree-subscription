@@ -42,6 +42,14 @@
   @apply transition-transform duration-500 ease-in-out;
 }
 
+.subscription-container {
+  @apply w-full max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md;
+}
+
+.app-container {
+  @apply min-h-screen flex items-center justify-center bg-gray-100 p-4;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface SelectInputProps {
   label: string;
@@ -7,7 +7,13 @@ interface SelectInputProps {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const SelectInput: React.FC<SelectInputProps> = ({ label, options, value, onChange }) => {
+// Reusable select input component
+const SelectInput: React.FC<SelectInputProps> = ({
+  label,
+  options,
+  value,
+  onChange,
+}) => {
   return (
     <div className="select-input-container">
       <label className="form-label">{label}</label>
